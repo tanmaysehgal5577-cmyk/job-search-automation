@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="AI-powered Job Search Automation Dashboard — Find, track, and apply to jobs smarter with AI recommendations and resume matching." />
+  <title>JobAI — Smart Job Search Automation</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+  <!-- Animated Background Particles -->
+  <div class="bg-particles" id="bgParticles"></div>
+
+  <!-- Sidebar -->
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-logo">
+      <div class="logo-icon">
+        <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
+          <path d="M14 2L26 8V20L14 26L2 20V8L14 2Z" fill="url(#logoGrad)" />
+          <path d="M14 8L20 11V17L14 20L8 17V11L14 8Z" fill="white" opacity="0.3"/>
+          <defs>
+            <linearGradient id="logoGrad" x1="2" y1="2" x2="26" y2="26">
+              <stop offset="0%" stop-color="#6366f1"/>
+              <stop offset="100%" stop-color="#a855f7"/>
+            </linearGradient>
+          </defs>
+        </svg>
+      </div>
+      <span class="logo-text">JobAI</span>
+    </div>
+
+    <nav class="sidebar-nav">
+      <button class="nav-item active" id="nav-dashboard" onclick="showSection('dashboard')">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+        <span>Dashboard</span>
+      </button>
+      <button class="nav-item" id="nav-jobs" onclick="showSection('jobs')">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/></svg>
+        <span>Job Listings</span>
+        <span class="nav-badge" id="jobsBadge">0</span>
+      </button>
+      <button class="nav-item" id="nav-tracker" onclick="showSection('tracker')">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+        <span>Apply Tracker</span>
+        <span class="nav-badge" id="trackerBadge">0</span>
+      </button>
+      <button class="nav-item" id="nav-resume" onclick="showSection('resume')">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+        <span>Resume &amp; Match</span>
+      </button>
+      <button class="nav-item" id="nav-ai" onclick="showSection('ai')">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M12 1v4M12 19v4M4.22 4.22l2.83 2.83M16.95 16.95l2.83 2.83M1 12h4M19 12h4M4.22 19.78l2.83-2.83M16.95 7.05l2.83-2.83"/></svg>
+        <span>AI Recommendations</span>
+      </button>
+    </nav>
+
+    <div class="sidebar-bottom">
+      <div class="user-profile">
+        <div class="user-avatar">GS</div>
+        <div class="user-info">
+          <span class="user-name">Garvit Sehgal</span>
+          <span class="user-role">Job Seeker</span>
+        </div>
+      </div>
+    </div>
+  </aside>
+
+  <!-- Main Content -->
+  <main class="main-content">
+
+    <!-- Top Header -->
+    <header class="top-header">
+      <div class="header-left">
+        <button class="menu-toggle" id="menuToggle" onclick="toggleSidebar()">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+        </button>
+        <div class="page-title" id="pageTitle">Dashboard</div>
+      </div>
+      <div class="header-right">
+        <button class="theme-toggle" id="themeToggle" onclick="toggleTheme()">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" id="themeIcon"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+        </button>
+        <button class="header-btn notification-btn" id="notifBtn">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+          <span class="notif-dot"></span>
+        </button>
+      </div>
+    </header>
+
+    <!-- DASHBOARD SECTION -->
+    <section class="content-section active" id="section-dashboard">
+      <!-- Hero Banner -->
+      <div class="hero-banner">
+        <div class="hero-content">
+          <h1 class="hero-title">Your Career <span class="gradient-text">Intelligence</span> Hub</h1>
+          <p class="hero-subtitle">AI-powered job matching, smart recommendations, and application tracking — all in one place.</p>
+          <div class="hero-actions">
+            <button class="btn btn-primary" onclick="showSection('jobs')">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+              Browse Jobs
+            </button>
+            <button class="btn btn-outline" onclick="showSection('resume')">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+              Upload Resume
+            </button>
+          </div>
+        </div>
+        <div class="hero-visual">
+          <div class="floating-card card-1">
+            <div class="fc-icon">🎯</div>
+            <div class="fc-text">95% Match</div>
+          </div>
+          <div class="floating-card card-2">
+            <div class="fc-icon">🤖</div>
+            <div class="fc-text">AI Powered</div>
+          </div>
+          <div class="floating-card card-3">
+            <div class="fc-icon">&#x26A1;</div>
+            <div class="fc-text">Auto Apply</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Stats Grid -->
+      <div class="stats-grid">
+        <div class="stat-card">
+          <div class="stat-icon" style="background: linear-gradient(135deg, #6366f1, #4f46e5)">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/></svg>
+          </div>
+          <div class="stat-info">
+            <div class="stat-value" id="statJobsVal">0</div>
+            <div class="stat-label">Jobs Available</div>
+          </div>
+          <div class="stat-trend up">+12%</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon" style="background: linear-gradient(135deg, #10b981, #059669)">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+          </div>
+          <div class="stat-info">
+            <div class="stat-value" id="statAppliedVal">0</div>
+            <div class="stat-label">Applied</div>
+          </div>
+          <div class="stat-trend up">+3 today</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon" style="background: linear-gradient(135deg, #f59e0b, #d97706)">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+          </div>
+          <div class="stat-info">
+            <div class="stat-value" id="statInterviewsVal">0</div>
+            <div class="stat-label">Interviews</div>
+          </div>
+          <div class="stat-trend up">+2 this week</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon" style="background: linear-gradient(135deg, #ec4899, #db2777)">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+          </div>
+          <div class="stat-info">
+            <div class="stat-value" id="statMatchVal">–</div>
+            <div class="stat-label">Avg Match Score</div>
+          </div>
+          <div class="stat-trend up">Upload resume</div>
+        </div>
+      </div>
+
+      <!-- Recent Activity + Top Matches -->
+      <div class="dashboard-grid">
+        <div class="dashboard-card">
+          <div class="card-header">
+            <h3 class="card-title">Recent Applications</h3>
+            <button class="card-action" onclick="showSection('tracker')">View All →</button>
+          </div>
+          <div class="activity-list" id="recentActivity">
+            <div class="empty-state-small">
+              <span>No applications yet. Start applying!</span>
+            </div>
+          </div>
+        </div>
+        <div class="dashboard-card">
+          <div class="card-header">
+            <h3 class="card-title">Top AI Matches</h3>
+            <button class="card-action" onclick="showSection('ai')">View All →</button>
+          </div>
+          <div class="match-list" id="topMatches">
+            <div class="empty-state-small">
+              <span>Upload resume to see matches</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- JOBS SECTION -->
+    <section class="content-section" id="section-jobs">
+      <div class="section-header">
+        <div>
+          <h2 class="section-title">Job Listings</h2>
+          <p class="section-subtitle">Discover your next opportunity</p>
+        </div>
+        <div class="header-controls">
+          <select class="filter-select" id="filterCategory" onchange="filterJobs()">
+            <option value="">All Categories</option>
+            <option value="Engineering">Engineering</option>
+            <option value="Design">Design</option>
+            <option value="Product">Product</option>
+            <option value="Data">Data</option>
+            <option value="Marketing">Marketing</option>
+            <option value="Finance">Finance</option>
+          </select>
+          <select class="filter-select" id="filterLocation" onchange="filterJobs()">
+            <option value="">All Locations</option>
+            <option value="Remote">Remote</option>
+            <option value="Bangalore">Bangalore</option>
+            <option value="Mumbai">Mumbai</option>
+            <option value="Delhi">Delhi</option>
+            <option value="Hyderabad">Hyderabad</option>
+            <option value="Pune">Pune</option>
+          </select>
+          <select class="filter-select" id="filterType" onchange="filterJobs()">
+            <option value="">Job Type</option>
+            <option value="Full-time">Full-time</option>
+            <option value="Part-time">Part-time</option>
+            <option value="Contract">Contract</option>
+            <option value="Internship">Internship</option>
+          </select>
+          <div class="search-box">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+            <input type="text" id="jobSearch" placeholder="Search jobs..." oninput="filterJobs()" />
+          </div>
+        </div>
+      </div>
+      <div class="jobs-count" id="jobsCount">Loading jobs...</div>
+      <div class="jobs-grid" id="jobsGrid"></div>
+    </section>
+
+    <!-- TRACKER SECTION -->
+    <section class="content-section" id="section-tracker">
+      <div class="section-header">
+        <div>
+          <h2 class="section-title">Apply Tracker</h2>
+          <p class="section-subtitle">Track your application journey</p>
+        </div>
+      </div>
+
+      <div class="kanban-board" id="kanbanBoard">
+        <div class="kanban-col" data-status="wishlist">
+          <div class="kanban-header" style="border-color: #6366f1">
+            <div class="kanban-title">
+              <span class="kanban-dot" style="background:#6366f1"></span>
+              Wishlist
+            </div>
+            <span class="kanban-count" id="count-wishlist">0</span>
+          </div>
+          <div class="kanban-cards" id="col-wishlist"></div>
+        </div>
+        <div class="kanban-col" data-status="applied">
+          <div class="kanban-header" style="border-color: #3b82f6">
+            <div class="kanban-title">
+              <span class="kanban-dot" style="background:#3b82f6"></span>
+              Applied
+            </div>
+            <span class="kanban-count" id="count-applied">0</span>
+          </div>
+          <div class="kanban-cards" id="col-applied"></div>
+        </div>
+        <div class="kanban-col" data-status="interview">
+          <div class="kanban-header" style="border-color: #f59e0b">
+            <div class="kanban-title">
+              <span class="kanban-dot" style="background:#f59e0b"></span>
+              Interview
+            </div>
+            <span class="kanban-count" id="count-interview">0</span>
+          </div>
+          <div class="kanban-cards" id="col-interview"></div>
+        </div>
+        <div class="kanban-col" data-status="offer">
+          <div class="kanban-header" style="border-color: #10b981">
+            <div class="kanban-title">
+              <span class="kanban-dot" style="background:#10b981"></span>
+              Offer
+            </div>
+            <span class="kanban-count" id="count-offer">0</span>
+          </div>
+          <div class="kanban-cards" id="col-offer"></div>
+        </div>
+        <div class="kanban-col" data-status="rejected">
+          <div class="kanban-header" style="border-color: #ef4444">
+            <div class="kanban-title">
+              <span class="kanban-dot" style="background:#ef4444"></span>
+              Rejected
+            </div>
+            <span class="kanban-count" id="count-rejected">0</span>
+          </div>
+          <div class="kanban-cards" id="col-rejected"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- RESUME SECTION -->
+    <section class="content-section" id="section-resume">
+      <div class="section-header">
+        <div>
+          <h2 class="section-title">Resume &amp; Match Score</h2>
+          <p class="section-subtitle">Upload your resume and see AI-powered job compatibility</p>
+        </div>
+      </div>
+
+      <div class="resume-layout">
+        <div class="resume-upload-card">
+          <div class="upload-zone" id="uploadZone" onclick="document.getElementById('resumeFile').click()" ondragover="handleDragOver(event)" ondrop="handleDrop(event)" ondragleave="handleDragLeave(event)">
+            <input type="file" id="resumeFile" accept=".pdf,.doc,.docx,.txt" style="display:none" onchange="handleFileUpload(event)" />
+            <div class="upload-icon" id="uploadIconArea">
+              <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+            </div>
+            <div class="upload-text" id="uploadTextArea">
+              <p class="upload-title">Drop your resume here</p>
+              <p class="upload-sub">or click to browse — PDF, DOC, DOCX, TXT</p>
+            </div>
+          </div>
+
+          <div class="resume-info" id="resumeInfo" style="display:none">
+            <div class="resume-file-card">
+              <div class="resume-file-icon">📄</div>
+              <div class="resume-file-details">
+                <div class="resume-file-name" id="resumeFileName">resume.pdf</div>
+                <div class="resume-file-size" id="resumeFileSize">2.4 MB</div>
+              </div>
+              <button class="remove-resume-btn" onclick="removeResume()" title="Remove">✕</button>
+            </div>
+
+            <div class="resume-skills">
+              <h4>Detected Skills</h4>
+              <div class="skills-tags" id="detectedSkills"></div>
+            </div>
+
+            <div class="overall-match-score">
+              <h4>Overall Match Score</h4>
+              <div class="big-score-ring">
+                <svg viewBox="0 0 120 120" width="120" height="120">
+                  <circle cx="60" cy="60" r="50" fill="none" stroke="var(--border)" stroke-width="10"/>
+                  <circle cx="60" cy="60" r="50" fill="none" stroke="url(#scoreGrad)" stroke-width="10"
+                    stroke-dasharray="314" stroke-dashoffset="314" stroke-linecap="round"
+                    transform="rotate(-90 60 60)" id="scoreCircle"/>
+                  <text x="60" y="65" text-anchor="middle" fill="var(--text-primary)" font-size="22" font-weight="700" id="scoreText">0%</text>
+                  <defs>
+                    <linearGradient id="scoreGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                      <stop offset="0%" stop-color="#6366f1"/>
+                      <stop offset="100%" stop-color="#a855f7"/>
+                    </linearGradient>
+                  </defs>
+                </svg>
+              </div>
+              <p class="score-desc" id="scoreDesc">Waiting for resume...</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="matched-jobs-card">
+          <h3 class="card-title">Jobs Matched to Your Resume</h3>
+          <div class="matched-jobs-list" id="matchedJobsList">
+            <div class="empty-state">
+              <div class="empty-icon">📂</div>
+              <p>Upload your resume to see matched jobs</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- AI SECTION -->
+    <section class="content-section" id="section-ai">
+      <div class="section-header">
+        <div>
+          <h2 class="section-title">AI Recommendations</h2>
+          <p class="section-subtitle">Personalized job picks powered by artificial intelligence</p>
+        </div>
+        <button class="btn btn-primary" onclick="refreshAIRecommendations()">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 4 23 10 17 10"/><polyline points="1 20 1 14 7 14"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/></svg>
+          Refresh
+        </button>
+      </div>
+
+      <div class="ai-intro-card">
+        <div class="ai-intro-icon">🤖</div>
+        <div class="ai-intro-text">
+          <h3>AI-Powered Job Matching</h3>
+          <p>Our AI analyzes your skills, experience, and preferences to recommend the best jobs for you.</p>
+        </div>
+      </div>
+
+      <div class="ai-grid" id="aiGrid"></div>
+    </section>
+
+  </main>
+
+  <!-- Job Detail Modal -->
+  <div class="modal-overlay" id="jobModal" onclick="closeModal(event)">
+    <div class="modal-box" id="modalBox">
+      <button class="modal-close" onclick="closeJobModal()">✕</button>
+      <div class="modal-content" id="modalContent"></div>
+    </div>
+  </div>
+
+  <!-- Toast Notification -->
+  <div class="toast" id="toast"></div>
+
+  <script src="app.js"></script>
+</body>
+</html>
